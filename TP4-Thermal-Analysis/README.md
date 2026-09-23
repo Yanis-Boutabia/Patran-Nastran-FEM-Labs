@@ -16,6 +16,9 @@ Hollow aluminum cylinder (D = 0.15 m, L = 0.6 m, thickness 6.25 mm), clamped at 
 
 The FE results correctly bracket the analytical threshold, validating the model's ability to capture the elastic-to-plastic transition under restrained thermal expansion.
 
+![Von Mises stress — ΔT = 100°C](./images/ex1-vm-stress-100c.png)
+*Von Mises stress distribution in the hollow cylinder at ΔT = 100°C — max 97 MPa near the clamped end, exceeding the 85 MPa yield strength*
+
 ## Exercise 2 — Conduction-convection wall: 1D vs 2D vs 3D
 
 Steady-state heat transfer through a wall (λ = 1.2 W/m·°C, L = 0.15 m), one face fixed at T₁ = 350°C, the other exposed to convection (h = 20 W/m²·°C, T∞ = 25°C).
@@ -29,6 +32,12 @@ Analytical: **T₂ = 117.9°C**
 | 1D | 11 nodes / 10 elements | 118°C | ~equal | 1.47 s |
 
 All three idealizations converge to essentially the same result, because the problem is physically one-dimensional (uniform boundary conditions on parallel faces, homogeneous material). **The 1D model is the most efficient choice** here — same accuracy, ~3× faster than 3D — though 2D/3D remain useful to visually confirm the absence of multidimensional effects.
+
+![Temperature distribution — 3D wall model](./images/ex2-3d-temperature.png)
+*Temperature field through the 3D wall model — nearly one-dimensional gradient from 350°C to 118°C*
+
+![Temperature profile — 1D model](./images/ex2-1d-profile.png)
+*Temperature profile along the wall thickness, 1D model — near-perfectly linear, matching the analytical solution at a fraction of the 3D model's computation time*
 
 ## Exercise 3 — Multilayer furnace wall
 
@@ -44,6 +53,12 @@ Three-layer wall: refractory alumina (e₁ = 0.15 m, λ₁ = 1.62) → insulatin
 | With convection | 51.7°C | 51.7°C | 0% |
 
 Adding convection lowers the exterior surface temperature (extra thermal resistance pulling heat away), and the kaolin layer — lowest conductivity — accounts for the largest temperature drop, confirming it as the wall's main thermal barrier.
+
+![Temperature distribution — multilayer wall, no convection](./images/ex3-multilayer-no-convection.png)
+*Temperature field through the 3-layer furnace wall without convection — largest gradient (temperature drop) in the low-conductivity kaolin layer*
+
+![Temperature distribution — multilayer wall, with convection](./images/ex3-multilayer-with-convection.png)
+*Temperature field with convective exchange on the exterior face — external surface temperature drops to 51.7°C, matching the analytical value exactly*
 
 ## Summary — analytical vs FE across all exercises
 
@@ -64,6 +79,3 @@ Adding convection lowers the exterior surface temperature (extra thermal resista
 ## Tools
 
 `MSC Patran` (modeling, meshing) · `MSC Nastran` (linear static & thermal solver)
-
----
-*Academic project (Mé422) — IPSA Paris, 4PA2, 27/03/2026.*
