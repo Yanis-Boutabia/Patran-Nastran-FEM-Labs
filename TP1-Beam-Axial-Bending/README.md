@@ -21,6 +21,12 @@ The beam is modeled as a 1D bar element under a 30,000 daN axial force at the fr
 - A single bar element is sufficient here — the linear displacement formulation exactly represents pure axial loading, so mesh refinement doesn't change results.
 - σ = 605 MPa < σ₀.₂ = 660 MPa → elastic domain, but with a small safety margin. At 35,000 daN, stress would reach 705.6 MPa, exceeding yield — the linear analysis would no longer be valid.
 
+![Axial displacement fringe plot](./images/axial-displacement.png)
+*Translational displacement under axial loading — linear increase from 0 at the clamped end to 5.76×10⁻³–6.18×10⁻³ m at the free end*
+
+![Axial stress fringe plot](./images/axial-stress.png)
+*Normal stress distribution — uniform at ~6.05×10⁸ Pa along the beam, as expected under pure axial loading*
+
 ## Case 2 — Combined bending (beam element, 20-element mesh)
 
 Same beam, now modeled with beam elements (20-element mesh, needed to capture the internal force variation along the span), subjected to a vertical point load (1500 N) and its own self-weight, separately and combined.
@@ -38,6 +44,12 @@ Deflections (Euler-Bernoulli beam theory vs FE):
 - Self-weight only: δ = 5.87×10⁻³ m
 - Combined: δ = 0.315 m — small deviations from theory attributed to discretization of the distributed self-weight load.
 
+![Combined case displacement fringe plot](./images/bending-combined-displacement.png)
+*Deflection under the combined load case (point load + self-weight) — max ≈ 0.315 m at the free end*
+
+![Combined case bending stress fringe plot](./images/bending-combined-stress.png)
+*Bending stress under the combined load case — max ≈ 749 MPa at the clamped end, matching σ_load + σ_weight exactly*
+
 ## Key takeaways
 
 - A bar element is exact for pure axial loading regardless of mesh density; bending requires a finer beam-element mesh to resolve internal force variation.
@@ -47,6 +59,3 @@ Deflections (Euler-Bernoulli beam theory vs FE):
 ## Tools
 
 `MSC Patran` (modeling) · `MSC Nastran` (linear static solver)
-
----
-*Academic project (Mé422) — IPSA Paris, PA2, 10/02/2026.*
