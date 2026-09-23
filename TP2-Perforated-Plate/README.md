@@ -20,6 +20,9 @@ Square steel plate, L = 10 cm side, 2 mm thick, with a central circular hole (R 
 
 The deviation is attributed to insufficient mesh density near the hole, where stress gradients are highest.
 
+![Von Mises stress — 8-element baseline mesh](./images/vm-stress-8-elements.png)
+*Von Mises stress concentration around the hole — 8-element mesh, max 146 MPa*
+
 ## Study 2 — Mesh convergence
 
 Three progressively refined meshes were compared (same geometry, symmetric subdivision):
@@ -33,12 +36,21 @@ Three progressively refined meshes were compared (same geometry, symmetric subdi
 
 **Displacement converges almost immediately** (global stiffness is well captured even with a coarse mesh), while the **local stress concentration keeps increasing with refinement** — a classic FEM behavior: coarse meshes average stress over large elements and underestimate concentration peaks near geometric discontinuities.
 
+![Von Mises stress — 50-element refined mesh](./images/vm-stress-50-elements.png)
+*Von Mises stress concentration around the hole — finest mesh (50 elements), max 166 MPa, closest to the analytical prediction*
+
 ## Study 3 — Quarter-plate symmetry reduction
 
 Since geometry, hole, and loading are all symmetric about both axes, only one quarter of the plate was modeled (8-element mesh matching Study 1's density), reducing the DOF count by ~4×.
 
+![Quarter-plate structured mesh](./images/quarter-plate-mesh.png)
+*Quarter-plate model with symmetry boundary conditions applied on the cut edges*
+
 - Max Von Mises stress: **146 MPa** — practically identical to the full-plate model with the same mesh density.
 - Confirms that symmetry reduction preserves accuracy while cutting computational cost, an efficient and reliable technique whenever geometry and loading symmetry allow it.
+
+![Von Mises stress — quarter-plate model](./images/quarter-plate-vm-stress.png)
+*Von Mises stress on the quarter-plate model — matches the full-plate baseline result (146 MPa) at a fraction of the computational cost*
 
 ## Computational time vs mesh density
 
@@ -60,6 +72,3 @@ Computational cost grows much faster than linearly with mesh density (stiffness 
 ## Tools
 
 `MSC Patran` (modeling, meshing) · `MSC Nastran` (linear static solver)
-
----
-*Academic project (Mé422) — IPSA Paris, PA2, 26/02/2026.*
