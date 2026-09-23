@@ -6,6 +6,9 @@ Comparative study of 3D element types (HEX8, HEX20, TET4, TET10) on a mechanical
 
 A mechanical clevis (steel, σ₀.₂ = 235 MPa) — a pin-and-fork joint used for articulated connections in automotive, mechanical, construction and aerospace assemblies. The study evaluates how mesh type and refinement affect stress/displacement accuracy under **bending** (Study 1) and a **cosine pressure distribution inside the pin hole**, p(θ) = 700·cos(θ) (Study 2), representative of the contact pressure in a pin-loaded hole.
 
+![Mechanical clevis studied](./images/clevis-part.png)
+*The mechanical clevis modeled in this study*
+
 Four element types were compared:
 - **HEX8** — linear hexahedral, 8 nodes (computationally efficient, linear interpolation)
 - **HEX20** — quadratic hexahedral, 20 nodes (used as reference — most accurate)
@@ -29,9 +32,18 @@ Converged (finest mesh) results and relative error vs. HEX20 reference:
 
 **Structural check:** σ_VM,max / σ₀.₂ = 27.9 MPa / 235 MPa ≈ **12%** — the clevis operates well within the elastic domain, with a large safety margin.
 
+![Von Mises stress — HEX20 reference mesh, Study 1](./images/study1-hex20-stress.png)
+*Von Mises stress distribution, HEX20 mesh (reference) — bending case, max 27.4 MPa concentrated at the hole*
+
+![Von Mises stress — TET4 mesh, Study 1](./images/study1-tet4-stress.png)
+*Von Mises stress distribution, TET4 mesh — the least accurate element, visibly under-predicting the stress concentration around the hole*
+
 ## Study 2 — Cosine pressure loading, p(θ) = 700·cos(θ)
 
 Same comparison approach, applied to a physically different loading case (radial pressure inside the hole, peaking at θ = 0, representative of pin-bearing contact). Two comparison protocols were used:
+
+![Cosine pressure loading illustration](./images/study2-loading.png)
+*Theoretical definition of the cosine pressure distribution p(θ) = 700·cos(θ) applied inside the pin hole, peaking at θ = 0*
 
 **(a) Fixed global edge length (a = 0.5 cm)** — same spatial discretization parameter, different resulting node counts (846–5081 nodes depending on element shape):
 
@@ -55,6 +67,9 @@ Same comparison approach, applied to a physically different loading case (radial
 
 Structural check: σ_max = 17 MPa << σ₀.₂ = 235 MPa — large safety margin confirmed under this loading case too.
 
+![Von Mises stress — HEX20 reference mesh, Study 2](./images/study2-hex20-stress.png)
+*Von Mises stress distribution under the cosine pressure loading, HEX20 reference mesh (3235 nodes) — max 1.71×10³ Pa*
+
 ## Key takeaways
 
 - **Element order matters more than raw node count for a given edge length**: at equal node count, quadratic elements (HEX20, TET10) still clearly outperform linear ones (HEX8, TET4) — linear tetrahedra (TET4) are the least accurate in every comparison, due to their constant-strain-per-element formulation which artificially stiffens the structure and underestimates both displacement and peak stress.
@@ -66,6 +81,3 @@ Structural check: σ_max = 17 MPa << σ₀.₂ = 235 MPa — large safety margin
 ## Tools
 
 `MSC Patran` (modeling, meshing — HEX8/HEX20/TET4/TET10) · `MSC Nastran` (linear static solver)
-
----
-*Academic project — IPSA Paris, Aero 4-PA2, 12/03/2026.*
